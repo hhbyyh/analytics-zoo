@@ -340,12 +340,12 @@ class NNEstimator[T: ClassTag] private[zoo] (
 object NNEstimator {
 
   /**
-   * Construct a [[NNEstimator]] with default Preprocessing: A SeqToTensor
+   * Construct a [[NNEstimator]] with default Preprocessing: SeqToTensor
    *
    * @param model BigDL module to be optimized
    * @param criterion  BigDL criterion method
    */
-  def apply[F, T: ClassTag](
+  def apply[T: ClassTag](
       model: Module[T],
       criterion: Criterion[T]
     )(implicit ev: TensorNumeric[T]): NNEstimator[T] = {
@@ -388,8 +388,8 @@ object NNEstimator {
   def apply[F, T: ClassTag](
       model: Module[T],
       criterion: Criterion[T],
-      featurePreprocessing: Preprocessing[Any, Tensor[T]],
-      laeblPreprocessing: Preprocessing[Any, Tensor[T]]
+      featurePreprocessing: Preprocessing[F, Tensor[T]],
+      laeblPreprocessing: Preprocessing[F, Tensor[T]]
     )(implicit ev: TensorNumeric[T]): NNEstimator[T] = {
     new NNEstimator(model, criterion)
       .setSamplePreprocessing(FeatureLabelPreprocessing(featurePreprocessing, laeblPreprocessing))
